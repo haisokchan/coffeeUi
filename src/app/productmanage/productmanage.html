@@ -1,0 +1,134 @@
+
+
+<div class="pos-container">
+  <!-- Left Panel - Product Grid -->
+  <div class="product-panel">
+    <!-- Header -->
+    <div class="header">
+      <div class="header-top">
+        <div class="header-left">
+          <span class="menu-icon">☰</span>
+          <h1>{{ showFavoritesOnly ? 'Favorites' : 'Products' }}</h1>
+        </div>
+        <div class="header-right">
+          <button 
+            (click)="toggleFavorites()" 
+            [class.active]="showFavoritesOnly"
+            class="icon-btn">
+            📊
+          </button>
+          <span class="search-icon">🔍</span>
+        </div>
+      </div>
+      
+      <input
+        type="text"
+        placeholder="Search products..."
+        [(ngModel)]="searchTerm"
+        class="search-input"
+      />
+    </div>
+
+    <!-- Category Tabs -->
+    <div class="category-tabs">
+      <button
+        *ngFor="let cat of categories"
+        (click)="selectedCategory = cat"
+        [class.active]="selectedCategory === cat"
+        class="category-btn">
+        {{ cat }}
+      </button>
+    </div>
+
+    <!-- Product Grid -->
+    <div class="product-grid">
+      <div
+        *ngFor="let product of getFilteredProducts()"
+        (click)="addToCart(product)"
+        class="product-card">
+        <div class="product-image">{{ product.image }}</div>
+        <div class="product-info">
+          <p class="product-name">{{ product.name }}</p>
+          <p class="product-price">${{ product.price.toFixed(2) }}</p>
+        </div>
+        <span *ngIf="product.favorite" class="favorite-badge">⭐</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right Panel - Cart -->
+  <div class="cart-panel">
+    <!-- Cart Header -->
+    <div class="cart-header">
+      <h2>Ticket</h2>
+      <div class="header-actions">
+        <span class="user-icon">👤</span>
+        <button class="menu-btn">⋮</button>
+      </div>
+    </div>
+
+    <!-- Order Type -->
+    <div class="order-type">
+      <select [(ngModel)]="orderType" class="order-select">
+        <option>Take out</option>
+        <option>Dine in</option>
+        <option>Delivery</option>
+      </select>
+    </div>
+
+    <!-- Cart Items -->
+    <div class="cart-items">
+      <div *ngFor="let item of cart" class="cart-item">
+        <div class="item-details">
+          <p class="item-name">{{ item.name }} x {{ item.quantity }}</p>
+          <p *ngIf="item.variant" class="item-variant">{{ item.variant }}</p>
+        </div>
+        <div class="item-actions">
+          <button (click)="updateQuantity(item.id, -1)" class="qty-btn minus">−</button>
+          <button (click)="updateQuantity(item.id, 1)" class="qty-btn plus">+</button>
+          <p class="item-total">${{ (item.price * item.quantity).toFixed(2) }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Discounts -->
+    <div class="discounts-section">
+      <div class="discount-grid">
+        <button
+          *ngFor="let disc of discounts"
+          (click)="toggleDiscount(disc.id)"
+          [class.active]="selectedDiscount === disc.id"
+          class="discount-btn">
+          <div class="discount-icon">{{ disc.icon }}</div>
+          <p class="discount-name">{{ disc.name }}</p>
+          <p class="discount-value">{{ (disc.discount * 100) }}% off</p>
+        </button>
+      </div>
+
+      <!-- Summary -->
+      <div class="summary">
+        <div class="summary-row">
+          <span>Discounts</span>
+          <span class="discount-amount">-${{ getDiscountAmount().toFixed(2) }}</span>
+        </div>
+        <div class="summary-row">
+          <span>Tax</span>
+          <span>${{ getTax().toFixed(2) }}</span>
+        </div>
+        <div class="summary-row total">
+          <span>Total</span>
+          <span>${{ getTotal().toFixed(2) }}</span>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="action-buttons">
+        <button class="action-btn save">SAVE</button>
+        <button class="action-btn charge">CHARGE</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+

@@ -1,4 +1,5 @@
 <h1>Hello my name is sokchan</h1>
+<h1>My name is Vannet</h1>
 
 <div class="pos-container">
   <!-- Left Panel - Product Grid -->
@@ -11,8 +12,8 @@
           <h1>{{ showFavoritesOnly ? 'Favorites' : 'Products' }}</h1>
         </div>
         <div class="header-right">
-          <button 
-            (click)="toggleFavorites()" 
+          <button
+            (click)="toggleFavorites()"
             [class.active]="showFavoritesOnly"
             class="icon-btn">
             📊
@@ -20,7 +21,7 @@
           <span class="search-icon">🔍</span>
         </div>
       </div>
-      
+
       <input
         type="text"
         placeholder="Search products..."
@@ -129,6 +130,3 @@
     </div>
   </div>
 </div>
-
-
-
